@@ -14,4 +14,8 @@ mainRouter.post("/signup", validateSignup, signupController, (req, res) => {
   res.redirect("/club-house");
 });
 
+mainRouter.get("/club-house", (req, res) => {
+  res.render("clubHouse");
+});
+
 export default mainRouter;

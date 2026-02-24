@@ -1,12 +1,15 @@
-import addUserQuery from "../db/queries.js";
+import bcrypt from "bcrypt";
+import { addUserQuery } from "../db/queries.js";
 
 async function signupModel(userData) {
-  try {
-    const result = await addUserQuery(userData);
-    return result;
-  } catch (err) {
-    console.error(`Failed to add new User`, err);
-  }
+  const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+  const result = await addUserQuery({
+    ...userData,
+    password: hashedPassword,
+  });
+
+  return result;
 }
 
 export default signupModel;
