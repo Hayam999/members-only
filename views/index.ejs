@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join the Club (Please, We're Lonely)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yellow: #FFD93D;
+      --orange: #FF6B35;
+      --dark: #1a1a2e;
+      --card: #16213e;
+      --text: #eaeaea;
+      --muted: #8892b0;
+      --green: #06d6a0;
+      --red: #ef233c;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--dark);
+      background-image:
+        radial-gradient(ellipse at 20% 20%, rgba(255,107,53,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(6,214,160,0.1) 0%, transparent 50%);
+      font-family: 'Nunito', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+
+    .floating-emojis span {
+      position: fixed;
+      font-size: 2rem;
+      animation: floatUp linear infinite;
+      opacity: 0.15;
+      pointer-events: none;
+      user-select: none;
+    }
+    .floating-emojis span:nth-child(1)  { left: 5%;  animation-duration: 9s;  animation-delay: 0s; }
+    .floating-emojis span:nth-child(2)  { left: 15%; animation-duration: 12s; animation-delay: 2s; }
+    .floating-emojis span:nth-child(3)  { left: 30%; animation-duration: 8s;  animation-delay: 1s; }
+    .floating-emojis span:nth-child(4)  { left: 50%; animation-duration: 11s; animation-delay: 3s; }
+    .floating-emojis span:nth-child(5)  { left: 70%; animation-duration: 10s; animation-delay: 0.5s; }
+    .floating-emojis span:nth-child(6)  { left: 85%; animation-duration: 7s;  animation-delay: 4s; }
+    .floating-emojis span:nth-child(7)  { left: 92%; animation-duration: 13s; animation-delay: 1.5s; }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.15; }
+      90%  { opacity: 0.15; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    .card {
+      background: var(--card);
+      border: 2px solid rgba(255,217,61,0.2);
+      border-radius: 24px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+      animation: slideIn 0.6s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0)   scale(1); }
+    }
+
+    .badge {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--yellow);
+      color: var(--dark);
+      font-family: 'Boogaloo', cursive;
+      font-size: 0.85rem;
+      padding: 4px 18px;
+      border-radius: 999px;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 14px rgba(255,217,61,0.4);
+    }
+
+    h1 {
+      font-family: 'Boogaloo', cursive;
+      font-size: 2.4rem;
+      color: var(--yellow);
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .subtitle strong {
+      color: var(--orange);
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      transition: color 0.2s;
+    }
+
+    .form-group:focus-within label {
+      color: var(--yellow);
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+
+    input, select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 0.75rem 1rem 0.75rem 2.8rem;
+      font-size: 1rem;
+      font-family: 'Nunito', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--yellow);
+      background: rgba(255,217,61,0.05);
+      box-shadow: 0 0 0 4px rgba(255,217,61,0.1);
+    }
+
+    input::placeholder { color: var(--muted); }
+
+    .hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      font-style: italic;
+    }
+
+    .hint.sassy { color: var(--orange); }
+
+    /* Password strength */
+    .strength-bar {
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.08);
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    .strength-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 4px;
+      transition: width 0.4s ease, background 0.4s ease;
+    }
+    .strength-label {
+      font-size: 0.72rem;
+      margin-top: 0.2rem;
+      color: var(--muted);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Boogaloo', cursive;
+      font-size: 1.3rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      background: var(--yellow);
+      color: var(--dark);
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+      box-shadow: 0 6px 20px rgba(255,217,61,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255,217,61,0.45);
+      background: #ffe566;
+    }
+
+    .btn:active { transform: translateY(0); }
+
+    .btn .btn-inner { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+
+    .terms {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 1.2rem;
+      line-height: 1.6;
+    }
+
+    .terms a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .terms a:hover { text-decoration: underline; }
+
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .login-link a {
+      color: var(--yellow);
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .login-link a:hover { text-decoration: underline; }
+
+    /* Fun wiggle on error */
+    @keyframes wiggle {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-6px); }
+      40%      { transform: translateX(6px); }
+      60%      { transform: translateX(-4px); }
+      80%      { transform: translateX(4px); }
+    }
+    .wiggle { animation: wiggle 0.4s ease; }
+
+    /* Checkbox */
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1.4rem;
+    }
+   .checkbox-group input[type="checkbox"] {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.checkbox-group input[type="checkbox"]:checked::after {
+  content: '✔';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  color: var(--dark);
+  font-weight: 900;
+  line-height: 1;
+}
+    .checkbox-group label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    select option { background: var(--card); }
+
+    /* Responsive */
+    @media (max-width: 520px) {
+      .card { padding: 2.5rem 1.5rem; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="floating-emojis" aria-hidden="true">
+    <span>🎉</span><span>🥳</span><span>🚀</span><span>✨</span>
+    <span>🎊</span><span>💫</span><span>🌟</span>
+  </div>
+
+  <div class="card">
+    <div class="badge">🔥 New members get a virtual high-five</div>
+
+    <h1>Hey, You! 👋</h1>
+    <p class="subtitle">
+      Create an account and join <strong>thousands of people</strong> who also didn't read the terms of service.
+    </p>
+
+    <%- typeof error !== 'undefined' && error ? `<div style="background:rgba(239,35,60,0.12);border:1px solid rgba(239,35,60,0.3);color:#ef233c;border-radius:10px;padding:0.75rem 1rem;margin-bottom:1.2rem;font-size:0.88rem;">${error}</div>` : '' %>
+
+    <form action="/signup" method="POST" id="signupForm" novalidate>
+
+      <div class="form-group">
+        <label for="first_name">Your Cool first name</label>
+        <div class="input-wrap">
+          <span class="input-icon">🦸</span>
+          <input
+            type="text"
+            id="first_name"
+            name="first_name"
+            placeholder="xX_DarkLord_Xx is taken, sorry"
+            value="<%= typeof formData !== 'undefined' ? formData.first_name || '' : '' %>"
+            autocomplete="first_name"
+            required
+          />
+        </div>
+        <p class="hint">No spaces. No crying. You've got this.</p>
+      </div>
+      <div class="form-group">
+        <label for="last_name">Your Cool Last name</label>
+        <div class="input-wrap">
+          <span class="input-icon">🦸</span>
+          <input
+            type="text"
+            id="last_name"
+            name="last_name
+            placeholder="xX_DarkLord_Xx is taken, sorry"
+            value="<%= typeof formData !== 'undefined' ? formData.las || '' : '' %>"
+            autocomplete="last_name"
+            required
+          />
+        </div>
+        <p class="hint">No spaces. No crying. You've got this.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrap">
+          <span class="input-icon">📬</span>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="definitely_not_spam@real.com"
+            value="<%= typeof formData !== 'undefined' ? formData.email || '' : '' %>"
+            autocomplete="email"
+            required
+          />
+        </div>
+        <p class="hint sassy">We promise not to email you more than… a lot.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Super Secret Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔐</span>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Not 'password123', please"
+            autocomplete="new-password"
+            required
+          />
+        </div>
+        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+        <p class="strength-label" id="strengthLabel">Start typing to check your password strength</p>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔁</span>
+          <input
+            type="password"
+            id="confirm_password"
+            name="confirm_password"
+            placeholder="Type it again, we believe in you"
+            autocomplete="new-password"
+            required
+          />
+        </div>
+        <p class="hint" id="matchHint"></p>
+      </div>
+
+      <div class="checkbox-group">
+  <input type="checkbox" id="terms" name="terms" required style="position:relative; z-index:10; cursor:pointer;" />
+  <label for="terms">
+    I agree to the <a href="/terms" style="color:var(--green);font-weight:700;">Terms of Service</a>
+    that I definitely 100% read completely and did not scroll past in 0.3 seconds. 🤞
+  </label>
+</div>
+
+      <button type="submit" class="btn" id="submitBtn">
+        <span class="btn-inner">
+          <span>🚀</span> <span>Let Me In!</span>
+        </span>
+      </button>
+
+    </form>
+
+    <p class="terms">
+      By signing up, you agree to receive our newsletter, our cat photos,<br/>
+      and the occasional existential crisis. <a href="/terms">Privacy Policy</a>.
+    </p>
+
+    
+  </div>
+
+  <script>
+    const passwordInput = document.getElementById('password');
+    const confirmInput  = document.getElementById('confirm_password');
+    const strengthFill  = document.getElementById('strengthFill');
+    const strengthLabel = document.getElementById('strengthLabel');
+    const matchHint     = document.getElementById('matchHint');
+    const form          = document.getElementById('signupForm');
+
+    const levels = [
+      { color: '#ef233c', label: '😬 Yikes. A toddler could crack that.' },
+      { color: '#ff6b35', label: '😅 Weak. Your cat\'s name is not a password.' },
+      { color: '#ffd93d', label: '🤔 Meh. Getting warmer...' },
+      { color: '#06d6a0', label: '💪 Strong! Now we\'re talking.' },
+      { color: '#06d6a0', label: '🔒 Fortress-level! Are you a spy?!' },
+    ];
+
+    function getStrength(pw) {
+      let score = 0;
+      if (pw.length >= 8)  score++;
+      if (pw.length >= 12) score++;
+      if (/[A-Z]/.test(pw)) score++;
+      if (/[0-9]/.test(pw)) score++;
+      if (/[^A-Za-z0-9]/.test(pw)) score++;
+      return Math.min(score, 4);
+    }
+
+    passwordInput.addEventListener('input', () => {
+      const pw = passwordInput.value;
+      if (!pw) {
+        strengthFill.style.width = '0%';
+        strengthLabel.textContent = 'Start typing to check your password strength';
+        return;
+      }
+      const s = getStrength(pw);
+      strengthFill.style.width  = ((s + 1) / 5 * 100) + '%';
+      strengthFill.style.background = levels[s].color;
+      strengthLabel.textContent = levels[s].label;
+      strengthLabel.style.color = levels[s].color;
+      checkMatch();
+    });
+
+    confirmInput.addEventListener('input', checkMatch);
+
+    function checkMatch() {
+      if (!confirmInput.value) { matchHint.textContent = ''; return; }
+      if (passwordInput.value === confirmInput.value) {
+        matchHint.textContent = '✅ Passwords match! High five!';
+        matchHint.style.color = 'var(--green)';
+      } else {
+        matchHint.textContent = '❌ Passwords don\'t match. Are you okay?';
+        matchHint.style.color = 'var(--red)';
+      }
+    }
+
+    form.addEventListener('submit', function(e) {
+      let valid = true;
+
+      if (!document.getElementById('username').value.trim()) {
+        shake(document.getElementById('username')); valid = false;
+      }
+      if (!document.getElementById('email').value.trim()) {
+        shake(document.getElementById('email')); valid = false;
+      }
+      if (passwordInput.value !== confirmInput.value) {
+        shake(confirmInput); valid = false;
+      }
+      if (!document.getElementById('terms').checked) {
+        shake(document.getElementById('terms')); valid = false;
+        alert('😤 You HAVE to check the terms box. It\'s the law. (Our law.)');
+      }
+
+      if (!valid) e.preventDefault();
+    });
+
+    function shake(el) {
+      el.classList.remove('wiggle');
+      void el.offsetWidth;
+      el.classList.add('wiggle');
+    }
+  </script>
+</body>
+</html>

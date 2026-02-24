@@ -1,26 +1,30 @@
 import express from "express";
+import session from "express-session";
+import passport from "passport";
+import Strategy from "passport-local";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import process from "node:process";
 import methodOverride from "method-override";
+import mainRouter from "./routes/mainRouter.js";
 
+const LocalStrategy = Strategy.Strategy;
 const __filename = fileURLToPath(import.meta.url);
-
 const __dirname = path.dirname(__filename);
-
 const app = express();
 
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(passport.session());
 app.use(
   express.urlencoded({
-    extended: true,
+    extended: false,
   }),
 );
 
 app.use(methodOverride("_method"));
-
-app.set("views", path.join(__dirname, "views"));
-
-app.set("view engine", "ejs");
+app.use(mainRouter);
 
 const PORT = 3001;
 app.use((err, req, res, next) => {
