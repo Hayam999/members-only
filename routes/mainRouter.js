@@ -9,5 +9,8 @@ mainRouter.get("/", (req, res) => {
 mainRouter.get("/terms", (req, res) => {
   res.render("terms");
 });
+mainRouter.get("/signup", (req, res) => {
+  res.render("index");
+});
 
 export default mainRouter;
