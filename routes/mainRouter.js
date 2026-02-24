@@ -1,5 +1,6 @@
 import express from "express";
-
+import signupController from "../controllers/signupController.js";
+import { validateSignup } from "../controllers/helpers.js";
 const mainRouter = express();
 
 mainRouter.get("/", (req, res) => {
@@ -9,8 +10,8 @@ mainRouter.get("/", (req, res) => {
 mainRouter.get("/terms", (req, res) => {
   res.render("terms");
 });
-mainRouter.get("/signup", (req, res) => {
-  res.render("index");
+mainRouter.post("/signup", validateSignup, signupController, (req, res) => {
+  res.redirect("/club-house");
 });
 
 export default mainRouter;
