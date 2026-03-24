@@ -15,7 +15,13 @@ mainRouter.post("/signup", validateSignup, signupController, (req, res) => {
 });
 
 mainRouter.get("/club-house", (req, res) => {
-  res.render("clubHouse");
+  // TODO add middleware to get messages and add it to the locals for rendering
+  const user = req.session.user;
+  if (!user) {
+    return res.redirect("/");
+  }
+  res.render("clubHouse", { user });
 });
+
 
 export default mainRouter;

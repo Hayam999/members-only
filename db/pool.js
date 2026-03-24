@@ -1,11 +1,9 @@
 import { Pool } from "pg";
-
+import 'dotenv/config';
 const pool = new Pool({
-  host: "localhost",
-  user: "hayam",
-  database: "members_only",
-  password: "hayam999",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {rejectUnauthorized: false}
+
 });
 
 export default pool;
