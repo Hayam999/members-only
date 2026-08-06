@@ -467,12 +467,12 @@
     <!-- ── COMPOSE NEW MESSAGE ── -->
     <div class="compose-card">
       <div class="compose-label">💬 Drop a message</div>
-      <form action="/messages" method="POST" id="composeForm">
+      <form action="/club-house/messages" method="POST" id="composeForm">
         <textarea
-          name="body"
+          name="messageBody"
           id="messageBody"
           placeholder="Say something brilliant. Or just say something. We're not picky."
-          maxlength="500"
+          maxlength="2000"
           required
         ></textarea>
         <div class="compose-footer">

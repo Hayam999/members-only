@@ -1,15 +1,26 @@
-import getAllMessages from "../models/messagesModel.js";
+import { dropMessage, getMessages } from "../models/messagesModel.js";
 
-// TODO assure messagesController is defined correctly
+export async function dropMessageController(req, res, next) {
+  const message = req.body.messageBody;
+  const author_first_name = req.session.user.first_name;
 
-async function messagesController(req, res, next) {
   try {
-    const messages = await getAllMessages();
-    req.session.messages = messages;
+    await dropMessage({ message, author_first_name });
     next();
   } catch (err) {
     console.error(`Failed to get Messages for user ${req.user}`, err);
   }
 }
 
-export default messagesController;
+export async function getMessagesController(req, res, next) {
+  try {
+    const messages = await getMessages();
+    req.session.messages = messages;
+    next();
+  } catch (err) {
+    console.error(
+      `Failed to get Messages for user ${req.user.first_name}`,
+      err,
+    );
+  }
+}

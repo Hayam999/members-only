@@ -15,13 +15,22 @@ export async function addUserQuery(userData) {
   return result.rows[0];
 }
 
+export async function updateMemberShipStatusQuery(membershipStatus, userId) {
+  return await true;
+}
+
+export async function dropMessageQuery(message, author_first_name) {
+  const result = await pool.query(
+    `INSERT INTO messages (author_first_name, body)
+     VALUES ($1, $2)`,
+    [author_first_name, message],
+  );
+  return result.rows[0];
+}
+
 export async function getMessagesQuery() {
   const result = await pool.query(
     `SELECT author_first_name, body, created_at FROM messages ORDER BY created_at DESC`,
   );
   return result.rows;
-}
-
-export async function updateMemberShipStatusQuery(membershipStatus, userId) {
-  return await true;
 }

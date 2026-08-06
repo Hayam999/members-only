@@ -96,3 +96,22 @@ export const validateSecretCode = (req, res, next) => {
   req.body = result.data;
   next();
 };
+
+const messageSchema = z
+  .string()
+  .trim() // strip leading/trailing whitespace
+  .min(1, "Message can't be empty")
+  .max(2000, "Message too long")
+  .transform((msg) => msg.replace(/<\/?[^>]+(>|$)/g, "")); // strip HTML tags
+
+export const validateMessage = (req, res, next) => {
+  const result = messageSchema.safeParse(req.body);
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors;
+    console.error("Message validation errors:", errors);
+    return res.status(400);
+  }
+  conole.log("Message validated successfully:", result.data);
+  req.body.messageBody = result.data; // attach sanitized message to req.body
+  next();
+};

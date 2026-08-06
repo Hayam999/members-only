@@ -1,11 +1,16 @@
 import express from "express";
-import messagesController from "../controllers/messagesController.js";
+import {
+  dropMessageController,
+  getMessagesController,
+} from "../controllers/messagesController.js";
 import signupController from "../controllers/signupController.js";
 import clubHouseController from "../controllers/clubHouseController.js";
+
 import {
   validateSignup,
   validateUser,
   validateSecretCode,
+  validateMessage,
 } from "../controllers/helpers.js";
 const mainRouter = express();
 
@@ -34,7 +39,7 @@ mainRouter.post(
   },
 );
 
-mainRouter.get("/club-house/messages", messagesController, (req, res) => {
+mainRouter.get("/club-house/messages", getMessagesController, (req, res) => {
   res.render("clubHouse", {
     user: req.session.user,
     membershipStatus: req.session.user.membershipStatus,
@@ -42,4 +47,13 @@ mainRouter.get("/club-house/messages", messagesController, (req, res) => {
   });
 });
 
+mainRouter.post(
+  "/club-house/messages",
+  validateUser,
+  validateMessage,
+  dropMessageController,
+  (req, res) => {
+    res.redirect("/club-house/messages");
+  },
+);
 export default mainRouter;
