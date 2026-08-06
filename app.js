@@ -22,8 +22,8 @@ app.use(
     extended: false,
   }),
 );
-
 app.use(methodOverride("_method"));
+
 app.use(mainRouter);
 
 const PORT = 3001;

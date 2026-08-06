@@ -1,6 +1,12 @@
 import express from "express";
+import messagesController from "../controllers/messagesController.js";
 import signupController from "../controllers/signupController.js";
-import { validateSignup } from "../controllers/helpers.js";
+import clubHouseController from "../controllers/clubHouseController.js";
+import {
+  validateSignup,
+  validateUser,
+  validateSecretCode,
+} from "../controllers/helpers.js";
 const mainRouter = express();
 
 mainRouter.get("/", (req, res) => {
@@ -10,18 +16,30 @@ mainRouter.get("/", (req, res) => {
 mainRouter.get("/terms", (req, res) => {
   res.render("terms");
 });
+
 mainRouter.post("/signup", validateSignup, signupController, (req, res) => {
-  res.redirect("/club-house");
+  res.redirect("/join-the-club");
 });
 
-mainRouter.get("/club-house", (req, res) => {
-  // TODO add middleware to get messages and add it to the locals for rendering
-  const user = req.session.user;
-  if (!user) {
-    return res.redirect("/");
-  }
-  res.render("clubHouse", { user });
+mainRouter.get("/join-the-club", (req, res) => {
+  res.render("joinTheClub");
 });
 
+mainRouter.post(
+  "/club-house",
+  validateSecretCode,
+  clubHouseController,
+  (req, res) => {
+    res.redirect("/club-house/messages");
+  },
+);
+
+mainRouter.get("/club-house/messages", messagesController, (req, res) => {
+  res.render("clubHouse", {
+    user: req.session.user,
+    membershipStatus: req.session.user.membershipStatus,
+    messages: req.session.messages,
+  });
+});
 
 export default mainRouter;

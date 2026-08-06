@@ -75,3 +75,24 @@ export const validateSignup = (req, res, next) => {
   req.validatedData = result.data;
   next();
 };
+
+export const validateUser = () => {
+  return true;
+};
+
+const secretCodeSchema = z.object({
+  secretCode: z.enum(["i'm a user", "i'm a pro-user", "i'm an admin"], {
+    errorMap: () => ({ message: "Invalid or unrecognized code" }),
+  }),
+});
+export const validateSecretCode = (req, res, next) => {
+  const result = secretCodeSchema.safeParse(req.body);
+  console.log("Validating secret code:", req.body.secretCode, result);
+  if (!result.success) {
+    console.error("Invalid secret code:", result.error.format());
+    return res.status(400);
+  }
+
+  req.body = result.data;
+  next();
+};

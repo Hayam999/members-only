@@ -441,8 +441,8 @@
             <%= user.first_name.charAt(0).toUpperCase() %>
           </div>
           <%= user.first_name %>
-          <span class="badge-pill <%= user.membership_status %>">
-            <%= user.membership_status === 'pro_user' ? '⭐ Pro' : user.membership_status === 'admin' ? '👑 Admin' : '🙂 Member' %>
+          <span class="badge-pill <%= membershipStatus %>">
+            <%= membershipStatus === 'i\'m a pro-user' ? '⭐ Pro' : membershipStatus === 'i\'m an admin' ? '👑 Admin' : '🙂 Member' %>
           </span>
         </div>
         <a href="/logout" class="logout-btn">👋 Leave</a>
